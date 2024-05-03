@@ -6,4 +6,36 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="ResourceMessagesException.pt-BR" />
+    <None Remove="ExceptionsBase\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="ResourceMessagesException.pt-BR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ResourceMessagesException.pt-BR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ResourceMessagesException.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ResourceMessagesException.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ResourceMessagesException-pt-BR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ResourceMessagesException.pt-BR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="ResourceMessagesException.Designer.cs">
+      <DependentUpon>ResourceMessagesException.resx</DependentUpon>
+    </Compile>
+    <Compile Update="ResourceMessagesException.pt-BR.Designer.cs">
+      <DependentUpon>ResourceMessagesException.pt-BR.resx</DependentUpon>
+    </Compile>
+    <Compile Update="ResourceMessagesException-pt-BR.Designer.cs">
+      <DependentUpon>ResourceMessagesException-pt-BR.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ExceptionsBase\" />
+  </ItemGroup>
 </Project>
