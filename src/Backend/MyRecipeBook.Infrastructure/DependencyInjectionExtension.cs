@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Reflection;
+using FluentMigrator.Runner;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MyRecipeBook.Domain.Repositories;
@@ -11,27 +13,39 @@ namespace MyRecipeBook.Infrastructure;
 
 public static class DependencyInjectionExtension
 {
-    public static void AddInfrastructure(this IServiceCollection service, IConfigurationManager Configuration)
+    public static void AddInfrastructure(this IServiceCollection services, IConfigurationManager configuration)
     {
-        AddDbContext(service, Configuration);
-        AddRepositories(service);
+        AddDbContext(services, configuration);
+        AddFluenteMigrator(services, configuration);
+        AddRepositories(services);
     }
 
-    private static void AddDbContext(IServiceCollection service, IConfigurationManager Configuration)
+    private static void AddDbContext(IServiceCollection services, IConfigurationManager Configuration)
     {
         var connectionString = Configuration.ConnectionString();
 
-        service.AddDbContext<MyRecipeBookDbContext>(dbContextOptions =>
+        services.AddDbContext<MyRecipeBookDbContext>(dbContextOptions =>
         {
             dbContextOptions.UseSqlServer(connectionString);
         });
     }
 
-    private static void AddRepositories(IServiceCollection service)
+    private static void AddRepositories(IServiceCollection services)
     {
-        service.AddScoped<IUnitOfWork, UnitOfWork>();
-        service.AddScoped<IUserWriteOnlyRepository, UserRepository>();
-        service.AddScoped<IUserReadOnlyRepository, UserRepository>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IUserWriteOnlyRepository, UserRepository>();
+        services.AddScoped<IUserReadOnlyRepository, UserRepository>();
+    }
+
+    private static void AddFluenteMigrator(IServiceCollection services, IConfigurationManager configuration)
+    {
+        services.AddFluentMigratorCore().ConfigureRunner(options =>
+        {
+            options
+            .AddSqlServer()
+            .WithGlobalConnectionString(configuration.ConnectionString())
+            .ScanIn(Assembly.Load("MyRecipeBook.Infrastructure")).For.All();
+        });
     }
 }
 
