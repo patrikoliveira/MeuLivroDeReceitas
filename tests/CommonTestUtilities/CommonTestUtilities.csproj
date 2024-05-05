@@ -8,14 +8,23 @@
 
   <ItemGroup>
     <None Remove="Requests\" />
+    <None Remove="Mapper\" />
+    <None Remove="Cryptography\" />
+    <None Remove="Repositories\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Requests\" />
+    <Folder Include="Mapper\" />
+    <Folder Include="Cryptography\" />
+    <Folder Include="Repositories\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Shared\MyRecipeBook.Communication\MyRecipeBook.Communication.csproj" />
+    <ProjectReference Include="..\..\src\Backend\MyRecipeBook.Application\MyRecipeBook.Application.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Bogus" Version="35.5.1" />
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="Moq" Version="4.20.70" />
   </ItemGroup>
 </Project>
