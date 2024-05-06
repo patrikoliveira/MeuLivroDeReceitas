@@ -45,5 +45,6 @@ jobs:
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"patrikoliveira_MeuLivroDeReceitas" /o:"patrikoliveira" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover -l trx
+          dotnet build --no-incremental
+          dotnet test --collect "Code Coverage"
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
